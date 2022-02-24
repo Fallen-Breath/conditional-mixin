@@ -1,18 +1,15 @@
 package me.fallenbreath.conditionalmixin.util;
 
+import me.fallenbreath.conditionalmixin.ConditionalMixinMod;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.Version;
 import net.fabricmc.loader.api.metadata.version.VersionPredicate;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.lang.reflect.Method;
 import java.util.Collection;
 
 public class FabricUtil
 {
-	public static final Logger LOGGER = LogManager.getLogger();
-
 	public static boolean isModLoaded(String modId)
 	{
 		return FabricLoader.getInstance().isModLoaded(modId);
@@ -36,12 +33,12 @@ public class FabricUtil
 			}
 			catch (Exception ex)
 			{
-				LOGGER.error("Failed to invoke VersionPredicateParser#matches", ex);
+				ConditionalMixinMod.LOGGER.error("Failed to invoke VersionPredicateParser#matches", ex);
 			}
 		}
 		catch (Exception e)
 		{
-			LOGGER.error("Failed to parse version or version predicate {} {}: {}", version.getFriendlyString(), versionPredicate, e);
+			ConditionalMixinMod.LOGGER.error("Failed to parse version or version predicate {} {}: {}", version.getFriendlyString(), versionPredicate, e);
 		}
 		return false;
 	}
