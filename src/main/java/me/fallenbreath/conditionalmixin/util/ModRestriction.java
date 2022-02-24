@@ -1,4 +1,4 @@
-package me.fallenbreath.conditionalmixin.api.value;
+package me.fallenbreath.conditionalmixin.util;
 
 import me.fallenbreath.conditionalmixin.api.annotation.Condition;
 import me.fallenbreath.conditionalmixin.api.annotation.Restriction;

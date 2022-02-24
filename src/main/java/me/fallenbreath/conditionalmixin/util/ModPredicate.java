@@ -1,8 +1,7 @@
-package me.fallenbreath.conditionalmixin.api.value;
+package me.fallenbreath.conditionalmixin.util;
 
 import com.google.common.base.Joiner;
 import me.fallenbreath.conditionalmixin.api.annotation.Condition;
-import me.fallenbreath.conditionalmixin.util.FabricUtil;
 
 import java.util.Arrays;
 import java.util.List;
