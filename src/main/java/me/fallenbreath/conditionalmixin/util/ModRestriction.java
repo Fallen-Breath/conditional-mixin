@@ -13,14 +13,14 @@ public class ModRestriction
 	private final List<ModPredicate> requirements;
 	private final List<ModPredicate> conflictions;
 	private final boolean requirementsSatisfied;
-	private final boolean conflictionsSatisfied;
+	private final boolean noConfliction;
 
 	private ModRestriction(Restriction restriction, Predicate<Condition> conditionPredicate)
 	{
 		this.requirements = generateRequirement(restriction.require(), conditionPredicate);
 		this.conflictions = generateRequirement(restriction.conflict(), conditionPredicate);
 		this.requirementsSatisfied = this.requirements.stream().allMatch(ModPredicate::isSatisfied);
-		this.conflictionsSatisfied = this.conflictions.stream().allMatch(ModPredicate::isSatisfied);
+		this.noConfliction = this.conflictions.stream().noneMatch(ModPredicate::isSatisfied);
 	}
 
 	public static ModRestriction of(Restriction restriction, Predicate<Condition> conditionPredicate)
@@ -47,14 +47,14 @@ public class ModRestriction
 		return this.requirementsSatisfied;
 	}
 
-	public boolean isConflictionsSatisfied()
+	public boolean isNoConfliction()
 	{
-		return this.conflictionsSatisfied;
+		return this.noConfliction;
 	}
 
 	public boolean isSatisfied()
 	{
-		return this.isRequirementsSatisfied() && this.isConflictionsSatisfied();
+		return this.isRequirementsSatisfied() && this.isNoConfliction();
 	}
 
 	public List<ModPredicate> getRequirements()
