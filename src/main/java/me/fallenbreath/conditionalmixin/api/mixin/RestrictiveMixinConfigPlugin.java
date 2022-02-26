@@ -1,5 +1,6 @@
 package me.fallenbreath.conditionalmixin.api.mixin;
 
+import me.fallenbreath.conditionalmixin.impl.MemorizedRestrictionChecker;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 
 /**
@@ -8,7 +9,7 @@ import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
  */
 public abstract class RestrictiveMixinConfigPlugin implements IMixinConfigPlugin
 {
-	protected final RestrictionChecker restrictionChecker = new RestrictionChecker();
+	protected final RestrictionChecker restrictionChecker = new MemorizedRestrictionChecker();
 
 	public RestrictiveMixinConfigPlugin()
 	{
