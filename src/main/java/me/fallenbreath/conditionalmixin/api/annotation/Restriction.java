@@ -4,7 +4,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 /**
- * Go apply this annotation on your mixin class
+ * The restrictions to be satisfied in order to apply the annotated mixin
  */
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Restriction
@@ -15,7 +15,7 @@ public @interface Restriction
 	Condition[] require() default {};
 
 	/**
-	 * Disable if any given condition is satisfied, like the "conflicts" entry in "fabric.mod.json"
+	 * Disable if any given condition is satisfied, like the "breaks" entry in "fabric.mod.json"
 	 * Has higher priority than field "require"
 	 */
 	Condition[] conflict() default {};
