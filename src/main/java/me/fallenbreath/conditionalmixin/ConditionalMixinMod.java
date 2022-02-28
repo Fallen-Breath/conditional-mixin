@@ -1,11 +1,17 @@
 package me.fallenbreath.conditionalmixin;
 
-import com.sun.org.slf4j.internal.Logger;
-import com.sun.org.slf4j.internal.LoggerFactory;
+import net.fabricmc.api.ModInitializer;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-public class ConditionalMixinMod
+public class ConditionalMixinMod implements ModInitializer
 {
 	public static final String MOD_ID = "conditional-mixin";
 
-	public static final Logger LOGGER = LoggerFactory.getLogger(ConditionalMixinMod.class);
+	public static final Logger LOGGER = LogManager.getLogger(ConditionalMixinMod.class);
+
+	@Override
+	public void onInitialize()
+	{
+	}
 }
