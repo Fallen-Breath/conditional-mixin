@@ -1,7 +1,10 @@
 package me.fallenbreath.conditionalmixin.api.mixin;
 
+import me.fallenbreath.conditionalmixin.impl.AnnotationCleaner;
 import me.fallenbreath.conditionalmixin.impl.MemorizedRestrictionChecker;
+import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
+import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
 
 /**
  * A simple class that handle the {@link me.fallenbreath.conditionalmixin.api.annotation.Restriction} annotation
@@ -10,6 +13,7 @@ import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 public abstract class RestrictiveMixinConfigPlugin implements IMixinConfigPlugin
 {
 	protected final RestrictionChecker restrictionChecker = new MemorizedRestrictionChecker();
+	private final AnnotationCleaner annotationCleaner = new AnnotationCleaner();
 
 	public RestrictiveMixinConfigPlugin()
 	{
@@ -17,9 +21,27 @@ public abstract class RestrictiveMixinConfigPlugin implements IMixinConfigPlugin
 	}
 
 	@Override
+	public void onLoad(String mixinPackage)
+	{
+		// in case
+	}
+
+	@Override
 	public boolean shouldApplyMixin(String targetClassName, String mixinClassName)
 	{
 		return this.restrictionChecker.checkRestriction(mixinClassName);
+	}
+
+	@Override
+	public void preApply(String targetClassName, ClassNode targetClass, String mixinClassName, IMixinInfo mixinInfo)
+	{
+		this.annotationCleaner.onPreApply(targetClass);
+	}
+
+	@Override
+	public void postApply(String targetClassName, ClassNode targetClass, String mixinClassName, IMixinInfo mixinInfo)
+	{
+		this.annotationCleaner.onPostApply(targetClass);
 	}
 
 	/**
