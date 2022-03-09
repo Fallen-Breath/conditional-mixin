@@ -5,7 +5,7 @@ import me.fallenbreath.conditionalmixin.api.annotation.Condition;
 import me.fallenbreath.conditionalmixin.api.annotation.Restriction;
 import me.fallenbreath.conditionalmixin.api.mixin.RestrictionCheckFailureCallback;
 import me.fallenbreath.conditionalmixin.api.mixin.RestrictionChecker;
-import me.fallenbreath.conditionalmixin.util.FabricUtil;
+import me.fallenbreath.conditionalmixin.api.util.VersionChecker;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
 import net.fabricmc.loader.api.Version;
@@ -94,7 +94,7 @@ public class SimpleRestrictionChecker implements RestrictionChecker
 					}
 					Version modVersion = modContainer.get().getMetadata().getVersion();
 					List<String> versionPredicates = Lists.newArrayList(Annotations.getValue(condition, "versionPredicates", Lists.newArrayList()));
-					if (!FabricUtil.doesVersionFitsPredicate(modVersion, versionPredicates))
+					if (!VersionChecker.doesVersionSatisfyPredicate(modVersion, versionPredicates))
 					{
 						results.add(new Result(false, String.format("mod %s@%s does not matches version predicates %s", modId, modVersion.getFriendlyString(), versionPredicates)));
 						continue;
