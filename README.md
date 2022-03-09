@@ -16,10 +16,10 @@ repositories {
 }
 
 dependencies {
-    modImplementation 'com.github.Fallen-Breath:conditional-mixin:v0.1.5'
+    modImplementation 'com.github.Fallen-Breath:conditional-mixin:v0.2.0'
 
     // suggested, to bundle it into your mod jar
-    include "com.github.Fallen-Breath:conditional-mixin:v0.1.5"
+    include "com.github.Fallen-Breath:conditional-mixin:v0.2.0"
 }
 ```
 
