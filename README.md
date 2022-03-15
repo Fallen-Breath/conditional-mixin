@@ -73,4 +73,4 @@ public abstract class AnotherClassMixin
 
 ## Notes
 
-If you are upgrading conditional-mixin from older version, make sure to check if you have overwritten some methods in your mixin plugin class, since `RestrictiveMixinConfigPlugin#preApply` might implement more methods of `IMixinConfigPlugin` in newer versions. e.g. `RestrictiveMixinConfigPlugin#preApply` and `RestrictiveMixinConfigPlugin#postApply` are added in `v0.2.0` for being able to automatically remove the `@Restriction` in the merged target class
+If you are upgrading conditional-mixin from older version, make sure to check if you have overwritten some methods in your mixin plugin class, since class `RestrictiveMixinConfigPlugin` might implement more methods of `IMixinConfigPlugin` in newer versions. e.g. `RestrictiveMixinConfigPlugin#preApply` and `RestrictiveMixinConfigPlugin#postApply` are added in `v0.2.0` for being able to automatically remove the `@Restriction` in the merged target class
