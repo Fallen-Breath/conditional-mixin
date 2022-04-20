@@ -1,15 +1,14 @@
 package me.fallenbreath.conditionalmixin.impl;
 
-import com.google.common.collect.Maps;
-
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * A restriction checker implementation which memorized the result
  */
 public class MemorizedRestrictionChecker extends SimpleRestrictionChecker
 {
-	private final Map<String, Boolean> memory = Maps.newHashMap();
+	private final Map<String, Boolean> memory = new ConcurrentHashMap<>();
 
 	public boolean checkRestriction(String mixinClassName)
 	{
