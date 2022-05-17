@@ -2,6 +2,10 @@ package me.fallenbreath.conditionalmixin.api.mixin;
 
 import me.fallenbreath.conditionalmixin.api.annotation.Condition;
 
+/**
+ * A Tester class that will be constructed when parsing the {@link Condition} annotation
+ * Your implemented class should have a public constructor with 0 argument
+ */
 public interface ConditionTester
 {
 	/**

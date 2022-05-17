@@ -9,6 +9,16 @@ import org.spongepowered.asm.util.Annotations;
 import java.lang.annotation.Annotation;
 import java.util.List;
 
+/**
+ * Removed annotation merged to the target class from mixin class
+ * Mixin excludes some of its annotation class in {@link Annotations#isMergeableAnnotation}, but we can't mixin into that
+ * and added our own classes into the exclusion list, so here's what this class is made for
+ *
+ * What this class do:
+ * 1. onPreApply: Records the existing annotation on the target class (if that exists)
+ * 2. Mixin applies the mixin merge
+ * 3. onPostApply: Reverts the annotation on the target class back to the state before apply
+ */
 public class AnnotationCleaner
 {
 	private final Class<? extends Annotation> annotationClass;
