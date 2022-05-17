@@ -12,6 +12,7 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
 import net.fabricmc.loader.api.Version;
 import org.jetbrains.annotations.Nullable;
+import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.AnnotationNode;
 import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.service.MixinService;
@@ -115,26 +116,26 @@ public class SimpleRestrictionChecker implements RestrictionChecker
 					break;
 
 				case TESTER:
-					Class<? extends ConditionTester> clazz = Annotations.getValue(condition, "tester");
-					if (clazz.isInterface())
-					{
-						ConditionalMixinMod.LOGGER.error("Tester class {} is a interface, but it should be a class", clazz.getName());
-						continue;
-					}
-
+					Type clazzType = Annotations.getValue(condition, "tester");
 					ConditionTester tester;
 					try
 					{
-						tester = clazz.getConstructor().newInstance();
+						Class<?> clazz = Class.forName(clazzType.getClassName());
+						if (clazz.isInterface())
+						{
+							ConditionalMixinMod.LOGGER.error("Tester class {} is a interface, but it should be a class", clazz.getName());
+							continue;
+						}
+						tester = (ConditionTester)clazz.getConstructor().newInstance();
 					}
 					catch (Exception e)
 					{
-						ConditionalMixinMod.LOGGER.error("Failed to instantiate a ConditionTester from class {}: {}", clazz.getName(), e);
+						ConditionalMixinMod.LOGGER.error("Failed to instantiate a ConditionTester from class {}: {}", clazzType.getClassName(), e);
 						continue;
 					}
 
 					boolean testingResult = tester.isSatisfied(mixinClassName);
-					results.add(new Result(testingResult, String.format("ConditionTester result = %s", testingResult)));
+					results.add(new Result(testingResult, String.format("tester result = %s", testingResult)));
 			}
 		}
 		return results;

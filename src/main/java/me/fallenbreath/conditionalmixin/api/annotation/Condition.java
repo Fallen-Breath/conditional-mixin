@@ -15,7 +15,7 @@ public @interface Condition
 	 * A full qualified mixin class name if type == MIXIN
 	 * Not used if type == TESTER
 	 */
-	String value();
+	String value() default "";
 
 	/**
 	 * All possible version range requirements
