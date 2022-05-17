@@ -1,8 +1,10 @@
 package me.fallenbreath.conditionalmixin.impl;
 
 import com.google.common.collect.Lists;
+import me.fallenbreath.conditionalmixin.ConditionalMixinMod;
 import me.fallenbreath.conditionalmixin.api.annotation.Condition;
 import me.fallenbreath.conditionalmixin.api.annotation.Restriction;
+import me.fallenbreath.conditionalmixin.api.mixin.ConditionTester;
 import me.fallenbreath.conditionalmixin.api.mixin.RestrictionCheckFailureCallback;
 import me.fallenbreath.conditionalmixin.api.mixin.RestrictionChecker;
 import me.fallenbreath.conditionalmixin.api.util.VersionChecker;
@@ -34,7 +36,7 @@ public class SimpleRestrictionChecker implements RestrictionChecker
 		if (restriction != null)
 		{
 			List<AnnotationNode> enableConditions = Annotations.getValue(restriction, "require", true);
-			for (Result result : this.checkConditions(enableConditions))
+			for (Result result : this.checkConditions(mixinClassName, enableConditions))
 			{
 				if (!result.success)
 				{
@@ -43,7 +45,7 @@ public class SimpleRestrictionChecker implements RestrictionChecker
 				}
 			}
 			List<AnnotationNode> disableConditions = Annotations.getValue(restriction, "conflict", true);
-			for (Result result : this.checkConditions(disableConditions))
+			for (Result result : this.checkConditions(mixinClassName, disableConditions))
 			{
 				if (result.success)
 				{
@@ -75,7 +77,7 @@ public class SimpleRestrictionChecker implements RestrictionChecker
 		}
 	}
 
-	private List<Result> checkConditions(List<AnnotationNode> conditions)
+	private List<Result> checkConditions(String mixinClassName, List<AnnotationNode> conditions)
 	{
 		List<Result> results = Lists.newArrayList();
 		for (AnnotationNode condition : conditions)
@@ -103,14 +105,30 @@ public class SimpleRestrictionChecker implements RestrictionChecker
 					break;
 
 				case MIXIN:
-					String className = Annotations.getValue(condition, "value");
-					if (!this.checkRestriction(className))
+					String requiredMixinClassName = Annotations.getValue(condition, "value");
+					if (!this.checkRestriction(requiredMixinClassName))
 					{
-						results.add(new Result(false, String.format("required mixin class %s disabled", className)));
+						results.add(new Result(false, String.format("required mixin class %s disabled", requiredMixinClassName)));
 						continue;
 					}
-					results.add(new Result(true, String.format("conflicted mixin class %s found", className)));
+					results.add(new Result(true, String.format("conflicted mixin class %s found", requiredMixinClassName)));
 					break;
+
+				case TESTER:
+					Class<? extends ConditionTester> clazz = Annotations.getValue(condition, "tester");
+					ConditionTester tester;
+					try
+					{
+						tester = clazz.getConstructor().newInstance();
+					}
+					catch (Exception e)
+					{
+						ConditionalMixinMod.LOGGER.error("Failed to instantiate a ConditionTester from class {}: {}", clazz.getName(), e);
+						continue;
+					}
+
+					boolean testingResult = tester.isSatisfied(mixinClassName);
+					results.add(new Result(testingResult, String.format("ConditionTester result = %s", testingResult)));
 			}
 		}
 		return results;
