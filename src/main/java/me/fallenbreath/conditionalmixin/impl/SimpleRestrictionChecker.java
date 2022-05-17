@@ -116,6 +116,12 @@ public class SimpleRestrictionChecker implements RestrictionChecker
 
 				case TESTER:
 					Class<? extends ConditionTester> clazz = Annotations.getValue(condition, "tester");
+					if (clazz.isInterface())
+					{
+						ConditionalMixinMod.LOGGER.error("Tester class {} is a interface, but it should be a class", clazz.getName());
+						continue;
+					}
+
 					ConditionTester tester;
 					try
 					{
