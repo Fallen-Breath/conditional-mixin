@@ -1,27 +1,34 @@
 package me.fallenbreath.conditionalmixin.impl;
 
-import me.fallenbreath.conditionalmixin.api.annotation.Restriction;
 import org.jetbrains.annotations.Nullable;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.AnnotationNode;
 import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.util.Annotations;
 
+import java.lang.annotation.Annotation;
 import java.util.List;
 
 public class AnnotationCleaner
 {
+	private final Class<? extends Annotation> annotationClass;
+
+	public AnnotationCleaner(Class<? extends Annotation> annotationClass)
+	{
+		this.annotationClass = annotationClass;
+	}
+
 	@Nullable
 	private AnnotationNode previousRestrictionAnnotation;
 
 	public void onPreApply(ClassNode targetClass)
 	{
-		this.previousRestrictionAnnotation = Annotations.getVisible(targetClass, Restriction.class);
+		this.previousRestrictionAnnotation = Annotations.getVisible(targetClass, this.annotationClass);
 	}
 
 	public void onPostApply(ClassNode targetClass)
 	{
-		String descriptor = Type.getDescriptor(Restriction.class);
+		String descriptor = Type.getDescriptor(this.annotationClass);
 		List<AnnotationNode> annotationNodes = targetClass.visibleAnnotations;
 		if (annotationNodes == null)
 		{
