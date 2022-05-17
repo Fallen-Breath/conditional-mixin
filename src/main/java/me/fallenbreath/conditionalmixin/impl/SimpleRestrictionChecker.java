@@ -6,7 +6,6 @@ import me.fallenbreath.conditionalmixin.api.annotation.Condition;
 import me.fallenbreath.conditionalmixin.api.annotation.Restriction;
 import me.fallenbreath.conditionalmixin.api.mixin.ConditionTester;
 import me.fallenbreath.conditionalmixin.api.mixin.RestrictionCheckFailureCallback;
-import me.fallenbreath.conditionalmixin.api.mixin.RestrictionChecker;
 import me.fallenbreath.conditionalmixin.api.util.VersionChecker;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;

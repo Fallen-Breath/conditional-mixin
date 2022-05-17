@@ -3,6 +3,7 @@ package me.fallenbreath.conditionalmixin.api.mixin;
 import me.fallenbreath.conditionalmixin.api.annotation.Restriction;
 import me.fallenbreath.conditionalmixin.impl.AnnotationCleaner;
 import me.fallenbreath.conditionalmixin.impl.MemorizedRestrictionChecker;
+import me.fallenbreath.conditionalmixin.impl.RestrictionChecker;
 import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;

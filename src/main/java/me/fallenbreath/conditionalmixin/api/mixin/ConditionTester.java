@@ -10,7 +10,7 @@ public interface ConditionTester
 {
 	/**
 	 * This method will be called when parsing the {@link Condition} annotation to determine if the condition is satisfied
-	 * @param mixinClassName The class name of your mixin class. Passed from
+	 * @param mixinClassName The class name of your mixin class. Passed from {@link org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin#shouldApplyMixin}
 	 * @return a boolean indicating if the condition is satisfied
 	 */
 	boolean isSatisfied(String mixinClassName);

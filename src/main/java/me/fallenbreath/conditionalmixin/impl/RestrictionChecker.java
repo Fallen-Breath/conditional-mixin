@@ -1,6 +1,7 @@
-package me.fallenbreath.conditionalmixin.api.mixin;
+package me.fallenbreath.conditionalmixin.impl;
 
 import me.fallenbreath.conditionalmixin.api.annotation.Restriction;
+import me.fallenbreath.conditionalmixin.api.mixin.RestrictionCheckFailureCallback;
 
 /**
  * A helper class to for checking if {@link Restriction} annotation on a mixin class is satisfied
