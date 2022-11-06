@@ -1,17 +1,24 @@
 package me.fallenbreath.conditionalmixin.impl;
 
+import com.google.common.collect.Maps;
+
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * A restriction checker implementation which memorized the result
  */
 public class MemorizedRestrictionChecker extends SimpleRestrictionChecker
 {
-	private final Map<String, Boolean> memory = new ConcurrentHashMap<>();
+	private final Map<String, Boolean> memory = Maps.newHashMap();
 
-	public boolean checkRestriction(String mixinClassName)
+	public synchronized boolean checkRestriction(String mixinClassName)
 	{
-		return this.memory.computeIfAbsent(mixinClassName, key -> super.checkRestriction(mixinClassName));
+		Boolean result = this.memory.get(mixinClassName);
+		if (result == null)
+		{
+			result = super.checkRestriction(mixinClassName);
+			this.memory.put(mixinClassName, result);
+		}
+		return result;
 	}
 }
