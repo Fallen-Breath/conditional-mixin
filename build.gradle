@@ -7,8 +7,11 @@ sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
 archivesBaseName = project.archives_base_name
-version = project.mod_version + ("true".equalsIgnoreCase(System.getenv("IS_RELEASE")) ? "" : "-SNAPSHOT")
+version = project.mod_version
 group = project.maven_group
+if ("false".equalsIgnoreCase(System.getenv("IS_RELEASE"))) {
+	version += "-SNAPSHOT"
+}
 
 dependencies {
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
