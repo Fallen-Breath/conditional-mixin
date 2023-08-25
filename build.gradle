@@ -7,7 +7,7 @@ sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
 archivesBaseName = project.archives_base_name
-version = project.mod_version
+version = project.mod_version + (System.getenv("IS_RELEASE") == "true" ? "" : "-SNAPSHOT")
 group = project.maven_group
 
 dependencies {
@@ -54,7 +54,15 @@ publishing {
 
 	// select the repositories you want to publish to
 	repositories {
-		// uncomment to publish to the local maven
-		// mavenLocal()
+		maven {
+			url = version.endsWith("SNAPSHOT") ? "https://maven.fallenbreath.me/snapshots" : "https://maven.fallenbreath.me/releases"
+			credentials(PasswordCredentials) {
+				username = 'fallen'
+				password = System.getenv("FALLENS_MAVEN_TOKEN")
+			}
+			authentication {
+				basic(BasicAuthentication)
+			}
+		}
 	}
 }

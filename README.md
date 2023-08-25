@@ -12,6 +12,8 @@ It is available at [jitpack](https://jitpack.io/#Fallen-Breath/conditional-mixin
 
 Import conditional-mixin 
 
+#### From jitpack
+
 ```groovy
 repositories {
     maven { url 'https://jitpack.io' }
@@ -22,6 +24,21 @@ dependencies {
 
     // suggested, to bundle it into your mod jar
     include "com.github.Fallen-Breath:conditional-mixin:v0.3.2"
+}
+```
+
+#### From my maven
+
+```groovy
+repositories {
+    maven { url 'https://maven.fallenbreath.me/releases' }
+}
+
+dependencies {
+    modImplementation 'me.fallenbreath:conditional-mixin:v0.3.2'
+
+    // suggested, to bundle it into your mod jar
+    include "me.fallenbreath:conditional-mixin:v0.3.2"
 }
 ```
 
