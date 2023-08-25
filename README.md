@@ -1,10 +1,11 @@
 # conditional-mixin
 
 [![jitpack badge](https://jitpack.io/v/Fallen-Breath/conditional-mixin.svg)](https://jitpack.io/#Fallen-Breath/conditional-mixin)
+[![maven badge](https://maven.fallenbreath.me/api/badge/latest/releases/me/fallenbreath/conditional-mixin)](https://maven.fallenbreath.me/#/releases/me/fallenbreath/conditional-mixin)
 
 A fabric library mod for using annotation to conditionally apply your mixins. Requires fabric-loader >=0.10.4 only
 
-It is available at [jitpack](https://jitpack.io/#Fallen-Breath/conditional-mixin)
+It is available at [jitpack](https://jitpack.io/#Fallen-Breath/conditional-mixin) and [my maven](https://maven.fallenbreath.me/#/releases/me/fallenbreath/conditional-mixin)
 
 ## Example Usages
 
@@ -20,14 +21,16 @@ repositories {
 }
 
 dependencies {
-    modImplementation 'com.github.Fallen-Breath:conditional-mixin:0.4.0'
+    modImplementation 'com.github.Fallen-Breath:conditional-mixin:v0.4.0'
 
     // suggested, to bundle it into your mod jar
-    include "com.github.Fallen-Breath:conditional-mixin:0.4.0"
+    include "com.github.Fallen-Breath:conditional-mixin:v0.4.0"
 }
 ```
 
 #### From my maven
+
+Notes that there's no `v` prefix in the version
 
 ```groovy
 repositories {
