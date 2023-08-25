@@ -1,24 +1,42 @@
 package me.fallenbreath.conditionalmixin.impl;
 
 import com.google.common.collect.Maps;
+import me.fallenbreath.conditionalmixin.api.checker.RestrictionChecker;
+import me.fallenbreath.conditionalmixin.api.mixin.RestrictionCheckFailureCallback;
 
 import java.util.Map;
 
 /**
  * A restriction checker implementation which memorized the result
  */
-public class MemorizedRestrictionChecker extends SimpleRestrictionChecker
+public class MemorizedRestrictionChecker implements RestrictionChecker
 {
+	private final RestrictionChecker checker;
 	private final Map<String, Boolean> memory = Maps.newHashMap();
 
-	public synchronized boolean checkRestriction(String mixinClassName)
+	public MemorizedRestrictionChecker(RestrictionChecker checker)
 	{
-		Boolean result = this.memory.get(mixinClassName);
-		if (result == null)
+		this.checker = checker;
+	}
+
+	@Override
+	public boolean checkRestriction(String mixinClassName)
+	{
+		synchronized (this.memory)
 		{
-			result = super.checkRestriction(mixinClassName);
-			this.memory.put(mixinClassName, result);
+			Boolean result = this.memory.get(mixinClassName);
+			if (result == null)
+			{
+				result = this.checker.checkRestriction(mixinClassName);
+				this.memory.put(mixinClassName, result);
+			}
+			return result;
 		}
-		return result;
+	}
+
+	@Override
+	public void setFailureCallback(RestrictionCheckFailureCallback failureCallback)
+	{
+		this.checker.setFailureCallback(failureCallback);
 	}
 }

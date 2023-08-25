@@ -17,10 +17,20 @@ public class RestrictionCheckers
 	}
 
 	/**
-	 * A wrapped version of {@link #simple}, that stores and reuses the check result by mixin class names
+	 * A memorized version of the given checker, that stores and reuses the check result for mixin class names
+	 */
+	public static RestrictionChecker memorized(RestrictionChecker checker)
+	{
+		return new MemorizedRestrictionChecker(checker);
+	}
+
+	/**
+	 * The memorized checker that uses {@link #simple} as the internal checker implementation
+	 * <br>
+	 * See also: {@link #memorized(RestrictionChecker)}
 	 */
 	public static RestrictionChecker memorized()
 	{
-		return new MemorizedRestrictionChecker();
+		return memorized(simple());
 	}
 }
