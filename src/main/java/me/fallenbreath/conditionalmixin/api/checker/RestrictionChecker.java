@@ -1,4 +1,4 @@
-package me.fallenbreath.conditionalmixin.impl;
+package me.fallenbreath.conditionalmixin.api.checker;
 
 import me.fallenbreath.conditionalmixin.api.annotation.Restriction;
 import me.fallenbreath.conditionalmixin.api.mixin.RestrictionCheckFailureCallback;

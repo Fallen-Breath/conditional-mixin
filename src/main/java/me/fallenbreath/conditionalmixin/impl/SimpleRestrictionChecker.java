@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import me.fallenbreath.conditionalmixin.ConditionalMixinMod;
 import me.fallenbreath.conditionalmixin.api.annotation.Condition;
 import me.fallenbreath.conditionalmixin.api.annotation.Restriction;
+import me.fallenbreath.conditionalmixin.api.checker.RestrictionChecker;
 import me.fallenbreath.conditionalmixin.api.mixin.ConditionTester;
 import me.fallenbreath.conditionalmixin.api.mixin.RestrictionCheckFailureCallback;
 import me.fallenbreath.conditionalmixin.api.util.VersionChecker;
