@@ -8,6 +8,8 @@ It is available at [jitpack](https://jitpack.io/#Fallen-Breath/conditional-mixin
 
 ## Example Usages
 
+### Import
+
 Import conditional-mixin 
 
 ```groovy
@@ -23,24 +25,52 @@ dependencies {
 }
 ```
 
-Inherit `RestrictiveMixinConfigPlugin` to create your mixin config plugin class
+### Integrate
+
+You need to create a [mixin config plugin](https://github.com/SpongePowered/Mixin/blob/master/src/main/java/org/spongepowered/asm/mixin/extensibility/IMixinConfigPlugin.java)
+to provide the ability to control mixin applications. Then, there are 2 ways to integrate it with conditional-mixin:
+
+#### The simplest way
+
+Let your mixin config plugin class inherit [`RestrictiveMixinConfigPlugin`](src/main/java/me/fallenbreath/conditionalmixin/api/mixin/RestrictiveMixinConfigPlugin.java)
 
 The `RestrictiveMixinConfigPlugin` will disable those mixins that don't satisfy with the annotated restriction in its `shouldApplyMixin` method
 
 ```java
+import me.fallenbreath.conditionalmixin.api.mixin.RestrictiveMixinConfigPlugin;
+
 public class MyMixinConfigPlugin extends RestrictiveMixinConfigPlugin
 {
     // ...
 }
 ```
 
-Specify the mixin config plugin class in your mixin meta json:
+Specify the mixin config plugin class in your mixin meta json, if you have not done that yet:
 
 ```yaml
 "plugin": "my.mod.MyMixinConfigPlugin",
 ```
 
-Then you can annotate your mixins like:
+#### The universal way
+
+If you have already written a custom mixin plugin and don't want to make your plugin class inherit from something else,
+you can directly use the [`RestrictionChecker`](src/main/java/me/fallenbreath/conditionalmixin/api/checker/RestrictionChecker.java) provided by conditional-mixin
+
+```java
+import me.fallenbreath.conditionalmixin.api.checker.RestrictionChecker;
+import me.fallenbreath.conditionalmixin.api.checker.RestrictionCheckers;
+
+public class MyMixinConfigPlugin
+{
+	private final RestrictionChecker restrictionChecker = RestrictionCheckers.memorized();
+	
+	// See RestrictiveMixinConfigPlugin for usages of a RestrictionChecker
+}
+```
+
+### Annotate your mixins
+
+Now, you can annotate your mixins like these:
 
 ```java
 @Restriction(
@@ -96,4 +126,8 @@ public class MyConditionTester implements ConditionTester
 
 ## Notes
 
-If you are upgrading conditional-mixin from older version, make sure to check if you have overwritten some methods in your mixin plugin class, since class `RestrictiveMixinConfigPlugin` might implement more methods of `IMixinConfigPlugin` in newer versions. e.g. `RestrictiveMixinConfigPlugin#preApply` and `RestrictiveMixinConfigPlugin#postApply` are added in `v0.2.0` for being able to automatically remove the `@Restriction` in the merged target class
+If you are upgrading conditional-mixin from older version, and your mixin plugin class inherits from `RestrictiveMixinConfigPlugin`, 
+make sure to check if you have overwritten some methods in your mixin plugin class,
+since class `RestrictiveMixinConfigPlugin` might implement more methods of `IMixinConfigPlugin` in newer versions.
+e.g. `RestrictiveMixinConfigPlugin#preApply` and `RestrictiveMixinConfigPlugin#postApply` are added in `v0.2.0`
+for being able to automatically remove the `@Restriction` in the merged target class
