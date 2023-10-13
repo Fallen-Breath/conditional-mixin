@@ -48,6 +48,7 @@ jobs:
           path: build/libs/
 
       - name: Publish
+        if: github.event_name == 'push' && (startsWith(github.ref, 'refs/tags/v') || github.ref == 'refs/heads/dev')
         run: |
           ./gradlew publish
         env:
