@@ -88,7 +88,8 @@ public class SimpleRestrictionChecker implements RestrictionChecker
 			{
 				case MOD:
 					String modId = Annotations.getValue(condition, "value");
-					Objects.requireNonNull(modId);
+					Objects.requireNonNull(modId, "field value is required for condition type MOD, as the mod ID");
+
 					Optional<ModContainer> modContainer = FabricLoader.getInstance().getModContainer(modId);
 					if (!modContainer.isPresent())
 					{
@@ -107,6 +108,7 @@ public class SimpleRestrictionChecker implements RestrictionChecker
 
 				case MIXIN:
 					String requiredMixinClassName = Annotations.getValue(condition, "value");
+					Objects.requireNonNull(requiredMixinClassName, "field tester is required for condition type MIXIN, as the required mixin class name");
 					if (!this.checkRestriction(requiredMixinClassName))
 					{
 						results.add(new Result(false, String.format("required mixin class %s disabled", requiredMixinClassName)));
@@ -117,6 +119,8 @@ public class SimpleRestrictionChecker implements RestrictionChecker
 
 				case TESTER:
 					Type clazzType = Annotations.getValue(condition, "tester");
+					Objects.requireNonNull(clazzType, "field tester is required for condition type TESTER");
+
 					ConditionTester tester;
 					try
 					{
