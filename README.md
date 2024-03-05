@@ -21,16 +21,14 @@ repositories {
 }
 
 dependencies {
-    modImplementation 'com.github.Fallen-Breath:conditional-mixin:v0.5.0'
+    modImplementation 'com.github.Fallen-Breath:conditional-mixin:0.5.0'
 
     // suggested, to bundle it into your mod jar
-    include "com.github.Fallen-Breath:conditional-mixin:v0.5.0"
+    include "com.github.Fallen-Breath:conditional-mixin:0.5.0"
 }
 ```
 
 #### From my maven
-
-Notes that there's no `v` prefix in the version
 
 ```groovy
 repositories {
