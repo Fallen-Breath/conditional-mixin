@@ -10,7 +10,13 @@ public interface RestrictionChecker
 {
 	/**
 	 * Check if the {@link Restriction} annotation of the given mixin class is satisfied
-	 * Return true if the mixin class doesn't have the {@link Restriction} annotation
+	 * <p>
+	 * Special cases:
+	 * <ul>
+	 * <li>Return true if the mixin class doesn't have the {@link Restriction} annotation</li>
+	 * <li>Return false if the mixin class does not exist</li>
+	 * </ul>
+	 *
 	 * @param mixinClassName the target mixin class name to check dependency
 	 */
 	boolean checkRestriction(String mixinClassName);

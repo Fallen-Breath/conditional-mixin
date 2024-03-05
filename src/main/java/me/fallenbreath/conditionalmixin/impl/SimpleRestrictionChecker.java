@@ -33,26 +33,38 @@ public class SimpleRestrictionChecker implements RestrictionChecker
 	@Override
 	public boolean checkRestriction(String mixinClassName)
 	{
-		AnnotationNode restriction = getRestrictionAnnotation(mixinClassName);
-		if (restriction != null)
+		AnnotationNode restriction;
+		try
 		{
-			List<AnnotationNode> enableConditions = Annotations.getValue(restriction, "require", true);
-			for (Result result : this.checkConditions(mixinClassName, enableConditions))
+			restriction = getRestrictionAnnotation(mixinClassName);
+		}
+		catch (ClassNotFoundException e)
+		{
+			this.onRestrictionCheckFailure(mixinClassName, String.format("class '%s' not found", mixinClassName));
+			return false;
+		}
+
+		if (restriction == null)
+		{
+			return true;
+		}
+
+		List<AnnotationNode> enableConditions = Annotations.getValue(restriction, "require", true);
+		for (Result result : this.checkConditions(mixinClassName, enableConditions))
+		{
+			if (!result.success)
 			{
-				if (!result.success)
-				{
-					this.onRestrictionCheckFailure(mixinClassName, result.reason);
-					return false;
-				}
+				this.onRestrictionCheckFailure(mixinClassName, result.reason);
+				return false;
 			}
-			List<AnnotationNode> disableConditions = Annotations.getValue(restriction, "conflict", true);
-			for (Result result : this.checkConditions(mixinClassName, disableConditions))
+		}
+		List<AnnotationNode> disableConditions = Annotations.getValue(restriction, "conflict", true);
+		for (Result result : this.checkConditions(mixinClassName, disableConditions))
+		{
+			if (result.success)
 			{
-				if (result.success)
-				{
-					this.onRestrictionCheckFailure(mixinClassName, result.reason);
-					return false;
-				}
+				this.onRestrictionCheckFailure(mixinClassName, result.reason);
+				return false;
 			}
 		}
 		return true;
@@ -65,17 +77,18 @@ public class SimpleRestrictionChecker implements RestrictionChecker
 	}
 
 	@Nullable
-	private AnnotationNode getRestrictionAnnotation(String className)
+	private AnnotationNode getRestrictionAnnotation(String className) throws ClassNotFoundException
 	{
+		ClassNode classNode;
 		try
 		{
-			ClassNode classNode = MixinService.getService().getBytecodeProvider().getClassNode(className);
-			return Annotations.getVisible(classNode, Restriction.class);
+			classNode = MixinService.getService().getBytecodeProvider().getClassNode(className);
 		}
 		catch (ClassNotFoundException | IOException e)
 		{
-			return null;
+			throw new ClassNotFoundException();
 		}
+		return Annotations.getVisible(classNode, Restriction.class);
 	}
 
 	private List<Result> checkConditions(String mixinClassName, List<AnnotationNode> conditions)
@@ -140,6 +153,7 @@ public class SimpleRestrictionChecker implements RestrictionChecker
 
 					boolean testingResult = tester.isSatisfied(mixinClassName);
 					results.add(new Result(testingResult, String.format("tester result = %s", testingResult)));
+					break;
 			}
 		}
 		return results;
