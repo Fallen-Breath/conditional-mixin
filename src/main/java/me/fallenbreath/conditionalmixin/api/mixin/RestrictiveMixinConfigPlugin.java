@@ -3,7 +3,6 @@ package me.fallenbreath.conditionalmixin.api.mixin;
 import me.fallenbreath.conditionalmixin.api.annotation.Restriction;
 import me.fallenbreath.conditionalmixin.api.checker.RestrictionChecker;
 import me.fallenbreath.conditionalmixin.api.checker.RestrictionCheckers;
-import me.fallenbreath.conditionalmixin.impl.AnnotationCleaner;
 import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
@@ -15,7 +14,7 @@ import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
 public abstract class RestrictiveMixinConfigPlugin implements IMixinConfigPlugin
 {
 	protected final RestrictionChecker restrictionChecker = RestrictionCheckers.memorized();
-	private final AnnotationCleaner annotationCleaner = new AnnotationCleaner(Restriction.class);
+	private final AnnotationCleaner annotationCleaner = AnnotationCleaner.create(Restriction.class);
 
 	public RestrictiveMixinConfigPlugin()
 	{

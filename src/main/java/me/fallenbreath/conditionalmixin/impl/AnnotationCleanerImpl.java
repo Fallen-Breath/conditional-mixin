@@ -1,5 +1,6 @@
 package me.fallenbreath.conditionalmixin.impl;
 
+import me.fallenbreath.conditionalmixin.api.mixin.AnnotationCleaner;
 import org.jetbrains.annotations.Nullable;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.AnnotationNode;
@@ -9,21 +10,11 @@ import org.spongepowered.asm.util.Annotations;
 import java.lang.annotation.Annotation;
 import java.util.List;
 
-/**
- * Removed annotation merged to the target class from mixin class
- * Mixin excludes some of its annotation class in {@link Annotations#isMergeableAnnotation}, but we can't mixin into that
- * and added our own classes into the exclusion list, so here's what this class is made for
- *
- * What this class do:
- * 1. onPreApply: Records the existing annotation on the target class (if that exists)
- * 2. Mixin applies the mixin merge
- * 3. onPostApply: Reverts the annotation on the target class back to the state before apply
- */
-public class AnnotationCleaner
+public class AnnotationCleanerImpl implements AnnotationCleaner
 {
 	private final Class<? extends Annotation> annotationClass;
 
-	public AnnotationCleaner(Class<? extends Annotation> annotationClass)
+	public AnnotationCleanerImpl(Class<? extends Annotation> annotationClass)
 	{
 		this.annotationClass = annotationClass;
 	}
@@ -31,11 +22,13 @@ public class AnnotationCleaner
 	@Nullable
 	private AnnotationNode previousRestrictionAnnotation;
 
+	@Override
 	public void onPreApply(ClassNode targetClass)
 	{
 		this.previousRestrictionAnnotation = Annotations.getVisible(targetClass, this.annotationClass);
 	}
 
+	@Override
 	public void onPostApply(ClassNode targetClass)
 	{
 		String descriptor = Type.getDescriptor(this.annotationClass);
