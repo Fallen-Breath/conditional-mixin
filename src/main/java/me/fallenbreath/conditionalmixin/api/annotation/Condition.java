@@ -56,6 +56,8 @@ public @interface Condition
 
 		/**
 		 * Satisfies when the specified mixin class exists, and (if it has {@link Restriction}) its {@link Restriction} is satisfied
+		 * <p>
+		 * Notes: Please make sure the class name you provide in {@link #value} is a valid mixin class from your mod, or the behavior might be undefined
 		 */
 		MIXIN,
 
