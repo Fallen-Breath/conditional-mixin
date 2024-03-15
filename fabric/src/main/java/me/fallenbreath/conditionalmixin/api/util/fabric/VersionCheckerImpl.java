@@ -1,20 +1,29 @@
-package me.fallenbreath.conditionalmixin.api.util;
+package me.fallenbreath.conditionalmixin.api.util.fabric;
 
 import me.fallenbreath.conditionalmixin.ConditionalMixinMod;
+import net.fabricmc.loader.api.FabricLoader;
+import net.fabricmc.loader.api.ModContainer;
 import net.fabricmc.loader.api.Version;
 
 import java.lang.reflect.Method;
-import java.util.Collection;
+import java.util.Optional;
 
-public class VersionChecker
-{
-	/**
-	 * Use fabric-loader's util to check if a given version satisfy a version predicate
-	 * @param version A Version object from fabric. You can use {@link Version#parse} to create one
-	 * @param versionPredicate A string indicates a version predicate, e.g. ">=1.2.0" or "2.0.x"
-	 */
-	public static boolean doesVersionSatisfyPredicate(Version version, String versionPredicate)
-	{
+public class VersionCheckerImpl {
+    public static boolean isModPresent(String modId)
+    {
+        return FabricLoader.getInstance().isModLoaded(modId);
+    }
+
+    public static String getVersionString(String modId)
+    {
+        return FabricLoader.getInstance().getModContainer(modId).orElseThrow(IllegalArgumentException::new).getMetadata().getVersion().getFriendlyString();
+    }
+
+    public static boolean doesVersionSatisfyPredicate(String modId, String versionPredicate)
+    {
+        Optional<ModContainer> modContainer = FabricLoader.getInstance().getModContainer(modId);
+        if (!modContainer.isPresent()) return false;
+        Version version = modContainer.get().getMetadata().getVersion();
 		try
 		{
 			// fabric loader >=0.12
@@ -39,13 +48,5 @@ public class VersionChecker
 			ConditionalMixinMod.LOGGER.error("Failed to parse version or version predicate {} {}: {}", version.getFriendlyString(), versionPredicate, e);
 		}
 		return false;
-	}
-
-	/**
-	 * The given version satisfies, if versionPredicates is empty, or any of the predicate satisfies
-	 */
-	public static boolean doesVersionSatisfyPredicate(Version version, Collection<String> versionPredicates)
-	{
-		return versionPredicates.isEmpty() || versionPredicates.stream().anyMatch(vp -> doesVersionSatisfyPredicate(version, vp));
-	}
+    }
 }

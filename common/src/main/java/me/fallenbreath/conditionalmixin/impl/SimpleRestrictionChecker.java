@@ -8,9 +8,6 @@ import me.fallenbreath.conditionalmixin.api.checker.RestrictionChecker;
 import me.fallenbreath.conditionalmixin.api.mixin.ConditionTester;
 import me.fallenbreath.conditionalmixin.api.mixin.RestrictionCheckFailureCallback;
 import me.fallenbreath.conditionalmixin.api.util.VersionChecker;
-import net.fabricmc.loader.api.FabricLoader;
-import net.fabricmc.loader.api.ModContainer;
-import net.fabricmc.loader.api.Version;
 import org.jetbrains.annotations.Nullable;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.AnnotationNode;
@@ -21,7 +18,6 @@ import org.spongepowered.asm.util.Annotations;
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 /**
  * A restriction checker implementation
@@ -103,20 +99,19 @@ public class SimpleRestrictionChecker implements RestrictionChecker
 					String modId = Annotations.getValue(condition, "value");
 					Objects.requireNonNull(modId, "field value is required for condition type MOD, as the mod ID");
 
-					Optional<ModContainer> modContainer = FabricLoader.getInstance().getModContainer(modId);
-					if (!modContainer.isPresent())
+					if (!VersionChecker.isModPresent(modId))
 					{
 						results.add(new Result(false, String.format("required mod %s not found", modId)));
 						continue;
 					}
-					Version modVersion = modContainer.get().getMetadata().getVersion();
 					List<String> versionPredicates = Lists.newArrayList(Annotations.getValue(condition, "versionPredicates", Lists.newArrayList()));
-					if (!VersionChecker.doesVersionSatisfyPredicate(modVersion, versionPredicates))
+					String versionString = VersionChecker.getVersionString(modId);
+					if (!VersionChecker.doesVersionSatisfyPredicate(modId, versionPredicates))
 					{
-						results.add(new Result(false, String.format("mod %s@%s does not matches version predicates %s", modId, modVersion.getFriendlyString(), versionPredicates)));
+						results.add(new Result(false, String.format("mod %s@%s does not matches version predicates %s", modId, versionString, versionPredicates)));
 						continue;
 					}
-					results.add(new Result(true, String.format("conflicted/unsupported mod %s@%s found", modId, modVersion.getFriendlyString())));
+					results.add(new Result(true, String.format("conflicted/unsupported mod %s@%s found", modId, versionString)));
 					break;
 
 				case MIXIN:
