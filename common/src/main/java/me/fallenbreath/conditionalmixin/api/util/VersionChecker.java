@@ -3,6 +3,7 @@ package me.fallenbreath.conditionalmixin.api.util;
 import dev.architectury.injectables.annotations.ExpectPlatform;
 
 import java.util.Collection;
+import java.util.Optional;
 
 public class VersionChecker
 {
@@ -13,7 +14,7 @@ public class VersionChecker
 	}
 
 	@ExpectPlatform
-	public static String getVersionString(String modId)
+	public static Optional<String> getVersionString(String modId)
 	{
 		throw new AssertionError();
 	}
