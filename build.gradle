@@ -15,7 +15,11 @@ subprojects {
 		mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
 	}
 
-	// TODO: jar { from("LICENSE") }?
+	 jar {
+		 from(rootProject.file("LICENSE")) {
+			 rename { "${it}_${project.archives_base_name}"}
+		 }
+	 }
 }
 
 allprojects {
