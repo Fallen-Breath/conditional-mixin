@@ -1,8 +1,8 @@
 package me.fallenbreath.conditionalmixin.api.util.forge;
 
 import me.fallenbreath.conditionalmixin.ConditionalMixinMod;
-import net.minecraftforge.fml.ModContainer;
-import net.minecraftforge.fml.ModList;
+import net.minecraftforge.fml.loading.LoadingModList;
+import net.minecraftforge.fml.loading.moddiscovery.ModFileInfo;
 import org.apache.maven.artifact.versioning.ArtifactVersion;
 import org.apache.maven.artifact.versioning.VersionRange;
 
@@ -12,19 +12,19 @@ public class VersionCheckerImpl
 {
 	public static boolean isModPresent(String modId)
 	{
-		return ModList.get().isLoaded(modId);
+		return LoadingModList.get().getModFileById(modId) != null;
 	}
 
 	public static Optional<String> getVersionString(String modId)
 	{
-		return ModList.get().getModContainerById(modId).map(c -> c.getModInfo().getVersion().toString());
+		return Optional.ofNullable(LoadingModList.get().getModFileById(modId)).map(ModFileInfo::versionString);
 	}
 
 	public static boolean doesVersionSatisfyPredicate(String modId, String versionPredicate)
 	{
-		Optional<? extends ModContainer> modContainer = ModList.get().getModContainerById(modId);
-		if (!modContainer.isPresent()) return false;
-		ArtifactVersion version = modContainer.get().getModInfo().getVersion();
+		ModFileInfo modInfo = LoadingModList.get().getModFileById(modId);
+		if (modInfo == null) return false;
+		ArtifactVersion version = modInfo.getMods().get(0).getVersion();
 		try
 		{
 			// TODO: consistent version predicate parsing across loaders
