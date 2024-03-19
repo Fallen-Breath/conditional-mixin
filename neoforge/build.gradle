@@ -58,6 +58,10 @@ components.java {
 	}
 }
 
+tasks.withType(JavaCompile) {
+	options.release = 17
+}
+
 publishing {
 	publications {
 		mavenNeoForge(MavenPublication) {
