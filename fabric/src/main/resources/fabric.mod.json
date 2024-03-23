@@ -1,6 +1,9 @@
 {
   "schemaVersion": 1,
   "id": "conditional-mixin",
+  "provides": [
+    "conditional_mixin"
+  ],
   "version": "${version}",
   "license": "LGPL-3.0-only",
 
