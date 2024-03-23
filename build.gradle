@@ -15,21 +15,21 @@ subprojects {
 		mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
 	}
 
-	 jar {
-		 from(rootProject.file("LICENSE")) {
-			 rename { "${it}_${project.archives_base_name}"}
-		 }
-	 }
+	base {
+		archivesName = rootProject.archives_base_name + '-' + project.name
+	}
+
+	jar {
+		from(rootProject.file("LICENSE")) {
+			rename { "${it}_${project.archives_base_name}"}
+		}
+	}
 }
 
 allprojects {
 	apply plugin: "java"
 	apply plugin: "architectury-plugin"
 	apply plugin: "maven-publish"
-
-	base {
-		archivesName = rootProject.archives_base_name
-	}
 
 	version = rootProject.mod_version
 	group = rootProject.maven_group
