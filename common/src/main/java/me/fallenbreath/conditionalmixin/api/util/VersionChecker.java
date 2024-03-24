@@ -68,7 +68,7 @@ public class VersionChecker
 	/**
 	 * Notes: Only works in fabric, just for backward-compatibility
 	 *
-	 * @param version          Should be an {@link net.fabricmc.loader.api.Version} instance, the version to check
+	 * @param version          Should be a {@link net.fabricmc.loader.api.Version} instance, the version to check
 	 * @param versionPredicate The fabric-syntax version predicate string, e.g. ">=1.2.0" or "2.0.x"
 	 * @deprecated Use {@link #doesModVersionSatisfyPredicate} instead, which is platform-independent
 	 */
@@ -82,7 +82,7 @@ public class VersionChecker
 	/**
 	 * Notes: Only works in fabric, just for backward-compatibility
 	 *
-	 * @param version           Should be an {@link net.fabricmc.loader.api.Version} instance, the version to check
+	 * @param version           Should be a {@link net.fabricmc.loader.api.Version} instance, the version to check
 	 * @param versionPredicates A collection of the version predicates to test
 	 * @deprecated Use {@link #doesModVersionSatisfyPredicate} instead, which is platform-independent
 	 */

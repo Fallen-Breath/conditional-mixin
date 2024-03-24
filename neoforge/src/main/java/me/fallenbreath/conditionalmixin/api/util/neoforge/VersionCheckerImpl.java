@@ -20,6 +20,7 @@ public class VersionCheckerImpl
 		return Optional.ofNullable(LoadingModList.get().getModFileById(modId)).map(ModFileInfo::versionString);
 	}
 
+	@Deprecated
 	public static boolean doesVersionSatisfyPredicate(Object version, String versionPredicate)
 	{
 		throw new RuntimeException("doesVersionSatisfyPredicate only works in fabric platform, not in neoforge platform");
