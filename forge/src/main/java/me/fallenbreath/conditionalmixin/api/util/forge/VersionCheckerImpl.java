@@ -15,12 +15,17 @@ public class VersionCheckerImpl
 		return LoadingModList.get().getModFileById(modId) != null;
 	}
 
-	public static Optional<String> getVersionString(String modId)
+	public static Optional<String> getModVersionString(String modId)
 	{
 		return Optional.ofNullable(LoadingModList.get().getModFileById(modId)).map(ModFileInfo::versionString);
 	}
 
-	public static boolean doesVersionSatisfyPredicate(String modId, String versionPredicate)
+	public static boolean doesVersionSatisfyPredicate(Object version, String versionPredicate)
+	{
+		throw new RuntimeException("doesVersionSatisfyPredicate only works in fabric platform, not in forge platform");
+	}
+
+	public static boolean doesModVersionSatisfyPredicate(String modId, String versionPredicate)
 	{
 		ModFileInfo modInfo = LoadingModList.get().getModFileById(modId);
 		if (modInfo == null) return false;

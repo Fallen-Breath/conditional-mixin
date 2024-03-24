@@ -15,16 +15,13 @@ public class VersionCheckerImpl
 		return FabricLoader.getInstance().isModLoaded(modId);
 	}
 
-	public static Optional<String> getVersionString(String modId)
+	public static Optional<String> getModVersionString(String modId)
 	{
 		return FabricLoader.getInstance().getModContainer(modId).map(c -> c.getMetadata().getVersion().getFriendlyString());
 	}
 
-	public static boolean doesVersionSatisfyPredicate(String modId, String versionPredicate)
+	private static boolean doesVersionSatisfyPredicateImpl(Version version, String versionPredicate)
 	{
-		Optional<ModContainer> modContainer = FabricLoader.getInstance().getModContainer(modId);
-		if (!modContainer.isPresent()) return false;
-		Version version = modContainer.get().getMetadata().getVersion();
 		try
 		{
 			// fabric loader >=0.12
@@ -49,5 +46,17 @@ public class VersionCheckerImpl
 			ConditionalMixinMod.LOGGER.error("Failed to parse version or version predicate {} {}: {}", version.getFriendlyString(), versionPredicate, e);
 		}
 		return false;
+	}
+
+	@Deprecated
+	public static boolean doesVersionSatisfyPredicate(Object version, String versionPredicate)
+	{
+		return doesVersionSatisfyPredicateImpl((Version)version, versionPredicate);
+	}
+
+	public static boolean doesModVersionSatisfyPredicate(String modId, String versionPredicate)
+	{
+		Optional<ModContainer> mod = FabricLoader.getInstance().getModContainer(modId);
+		return mod.isPresent() && doesVersionSatisfyPredicateImpl(mod.get().getMetadata().getVersion(), versionPredicate);
 	}
 }

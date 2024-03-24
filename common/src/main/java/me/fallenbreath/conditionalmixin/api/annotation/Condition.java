@@ -25,15 +25,21 @@ public @interface Condition
 	/**
 	 * The value is used only when type == MOD
 	 * <p>
-	 * All possible version range requirements
+	 * All possible version range requirements. The predicate syntax depends on the current mod loader platform
 	 * <p>
 	 * The condition is satisfied when the testing version matches any versionPredicate, or no versionPredicate is given
 	 * <p>
-	 * Examples:
+	 * Examples (using fabric-like platforms syntax):
 	 * <ul>
 	 * <li>">=1.2.3": version >= 1.2.3</li>
 	 * <li>">=1.2.3 <1.3": version in [1.2.3, 1.3) </li>
 	 * <li>[">=1.2.3 <1.3", ">=2.0"]: version in [1.2.3, 1.3), or version >= 2.0</li>
+	 * </ul>
+	 * Examples (using forge-like platforms syntax):
+	 * <ul>
+	 * <li>"[1.2.3,)": version >= 1.2.3</li>
+	 * <li>"[1.2.3, 1.3)": version in [1.2.3, 1.3) </li>
+	 * <li>["[1.2.3, 1.3)", "[2.0,)"]: version in [1.2.3, 1.3), or version >= 2.0</li>
 	 * </ul>
 	 */
 	String[] versionPredicates() default {};
