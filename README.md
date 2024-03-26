@@ -57,7 +57,7 @@ dependencies {
     modImplementation 'me.fallenbreath.conditional-mixin:conditional-mixin-fabric:0.6.0'
 
     // Suggested, to bundle it into your mod jar. Choose a method your build system provides
-    include "e.fallenbreath.conditional-mixin:conditional-mixin-fabric:0.6.0"
+    include "me.fallenbreath.conditional-mixin:conditional-mixin-fabric:0.6.0"
 }
 ```
 
