@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "id": "conditional-mixin",
+  "provides": [
+    "conditional_mixin"
+  ],
+  "version": "${version}",
+  "license": "LGPL-3.0-only",
+
+  "name": "conditional mixin",
+  "description": "Use annotation to conditionally apply your mixins",
+  "authors": [
+    "Fallen_Breath"
+  ],
+  "contact": {
+    "homepage": "https://github.com/Fallen-Breath/conditional-mixin",
+    "sources": "https://github.com/Fallen-Breath/conditional-mixin"
+  },
+
+  "icon": "assets/conditionalmixin/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "me.fallenbreath.conditionalmixin.fabric.ConditionalMixinFabric"
+    ]
+  },
+  "mixins": [
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.10.4"
+  },
+
+  "custom": {
+    "modmenu:api": true,
+    "modmenu": {
+      "badges": [
+        "library"
+      ]
+    }
+  }
+}

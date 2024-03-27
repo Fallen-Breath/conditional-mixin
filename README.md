@@ -3,15 +3,33 @@
 [![jitpack badge](https://jitpack.io/v/Fallen-Breath/conditional-mixin.svg)](https://jitpack.io/#Fallen-Breath/conditional-mixin)
 [![maven badge](https://maven.fallenbreath.me/api/badge/latest/releases/me/fallenbreath/conditional-mixin)](https://maven.fallenbreath.me/#/releases/me/fallenbreath/conditional-mixin)
 
-A fabric library mod for using annotation to conditionally apply your mixins. Requires fabric-loader >=0.10.4 only
+A library mod for using annotation to conditionally apply your mixins to your Minecraft mods
 
 It is available at [jitpack](https://jitpack.io/#Fallen-Breath/conditional-mixin) and [my maven](https://maven.fallenbreath.me/#/releases/me/fallenbreath/conditional-mixin)
 
 ## Example Usages
 
+conditional-mixin supports multiple mod loader platforms, including:
+
+- Fabric
+- Forge
+- NeoForge
+
+conditional-mixin does not require any extra dependencies
+
 ### Import
 
-Import conditional-mixin 
+Import conditional-mixin in gradle
+
+Artifact ID cheatsheet:
+
+| Platform | Artifact ID                  |
+|----------|------------------------------|
+| Fabric   | `conditional-mixin-fabric`   |
+| Forge    | `conditional-mixin-forge`    |
+| NeoForge | `conditional-mixin-neoforge` |
+
+The following documents will use Fabric as the example. For other platforms, just replace the artifact ID accordingly
 
 #### From jitpack
 
@@ -21,10 +39,10 @@ repositories {
 }
 
 dependencies {
-    modImplementation 'com.github.Fallen-Breath:conditional-mixin:0.5.1'
+    modImplementation 'com.github.Fallen-Breath:conditional-mixin-fabric:0.5.1'
 
-    // suggested, to bundle it into your mod jar
-    include "com.github.Fallen-Breath:conditional-mixin:0.5.1"
+    // Suggested, to bundle it into your mod jar. Choose a method your build system provides
+    include "com.github.Fallen-Breath:conditional-mixin-fabric:0.5.1"
 }
 ```
 
@@ -36,10 +54,10 @@ repositories {
 }
 
 dependencies {
-    modImplementation 'me.fallenbreath:conditional-mixin:0.5.1'
+    modImplementation 'me.fallenbreath.conditional-mixin:conditional-mixin-fabric:0.6.0'
 
-    // suggested, to bundle it into your mod jar
-    include "me.fallenbreath:conditional-mixin:0.5.1"
+    // Suggested, to bundle it into your mod jar. Choose a method your build system provides
+    include "me.fallenbreath.conditional-mixin:conditional-mixin-fabric:0.6.0"
 }
 ```
 

@@ -1,0 +1,18 @@
+modLoader = "javafml"
+loaderVersion = "[1,)"
+license = "LGPL-3.0-only"
+
+[[mods]]
+modId = "conditional_mixin"
+version = "${version}"
+displayName = "conditional mixin"
+authors = "Fallen_Breath"
+description = "Use annotation to conditionally apply your mixins"
+logoFile = "assets/conditionalmixin/icon.png"
+
+[[dependencies.conditional_mixin]]
+modId = "neoforge"
+mandatory = true
+versionRange = "[1,)"
+ordering = "NONE"
+side = "BOTH"
