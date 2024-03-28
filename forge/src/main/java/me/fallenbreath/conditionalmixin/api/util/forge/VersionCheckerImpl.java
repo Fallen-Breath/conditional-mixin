@@ -1,23 +1,49 @@
 package me.fallenbreath.conditionalmixin.api.util.forge;
 
 import me.fallenbreath.conditionalmixin.ConditionalMixinMod;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.loading.LoadingModList;
-import net.minecraftforge.fml.loading.moddiscovery.ModFileInfo;
+import net.minecraftforge.forgespi.language.IModFileInfo;
+import net.minecraftforge.forgespi.language.IModInfo;
 import org.apache.maven.artifact.versioning.ArtifactVersion;
 import org.apache.maven.artifact.versioning.VersionRange;
 
+import java.util.Objects;
 import java.util.Optional;
 
 public class VersionCheckerImpl
 {
+	private static Optional<IModFileInfo> getModFileInfo(String modId)
+	{
+		IModFileInfo mod = LoadingModList.get().getModFileById(modId);
+		if (mod == null)
+		{
+			mod = ModList.get().getModFileById(modId);
+		}
+		return Optional.ofNullable(mod);
+	}
+
+	private static Optional<ArtifactVersion> getModVersion(IModFileInfo modFileInfo)
+	{
+		// IModFileInfo#versionString might not exist in old forge loader
+		for (IModInfo mod : modFileInfo.getMods())
+		{
+			return Optional.of(mod.getVersion());
+		}
+		return Optional.empty();
+	}
+
 	public static boolean isModPresent(String modId)
 	{
-		return LoadingModList.get().getModFileById(modId) != null;
+		return getModFileInfo(modId).isPresent();
 	}
 
 	public static Optional<String> getModVersionString(String modId)
 	{
-		return Optional.ofNullable(LoadingModList.get().getModFileById(modId)).map(ModFileInfo::versionString);
+		return getModFileInfo(modId)
+				.filter(modFileInfo -> !modFileInfo.getMods().isEmpty())
+				.flatMap(VersionCheckerImpl::getModVersion)
+				.map(Objects::toString);
 	}
 
 	@Deprecated
@@ -28,9 +54,12 @@ public class VersionCheckerImpl
 
 	public static boolean doesModVersionSatisfyPredicate(String modId, String versionPredicate)
 	{
-		ModFileInfo modInfo = LoadingModList.get().getModFileById(modId);
-		if (modInfo == null) return false;
-		ArtifactVersion version = modInfo.getMods().get(0).getVersion();
+		Optional<ArtifactVersion> versionOpt = getModFileInfo(modId)
+				.filter(modFileInfo -> !modFileInfo.getMods().isEmpty())
+				.flatMap(VersionCheckerImpl::getModVersion);
+		if (!versionOpt.isPresent()) return false;
+		ArtifactVersion version = versionOpt.get();
+
 		try
 		{
 			// TODO: consistent version predicate parsing across loaders
