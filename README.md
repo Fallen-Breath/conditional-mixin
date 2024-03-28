@@ -127,7 +127,7 @@ or
 
 ```java
 @Restriction(
-        require = @Condition(type = Condition.Type.MIXIN, value = "my.mod.mixin.ImportantMixin"),
+        require = @Condition(type = Condition.Type.MIXIN, value = "my.mod.mixin.ImportantMixin"),  // should be another mixin in your mod
         conflict = @Condition("bad_mod")
 )
 @Mixin(AnotherClass.class)
