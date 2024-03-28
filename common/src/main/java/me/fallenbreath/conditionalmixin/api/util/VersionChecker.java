@@ -1,6 +1,7 @@
 package me.fallenbreath.conditionalmixin.api.util;
 
 import dev.architectury.injectables.annotations.ExpectPlatform;
+import net.fabricmc.loader.api.Version;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -81,13 +82,22 @@ public class VersionChecker
 
 	/**
 	 * Notes: Only works in fabric, just for backward-compatibility
+	 */
+	@Deprecated
+	public static boolean doesVersionSatisfyPredicate(Version version, String versionPredicate)
+	{
+		return doesVersionSatisfyPredicate((Object)version, versionPredicate);
+	}
+
+	/**
+	 * Notes: Only works in fabric, just for backward-compatibility
 	 *
-	 * @param version           Should be a {@link net.fabricmc.loader.api.Version} instance, the version to check
+	 * @param version           The version to check
 	 * @param versionPredicates A collection of the version predicates to test
 	 * @deprecated Use {@link #doesModVersionSatisfyPredicate} instead, which is platform-independent
 	 */
 	@Deprecated
-	public static boolean doesVersionSatisfyPredicate(Object version, Collection<String> versionPredicates)
+	public static boolean doesVersionSatisfyPredicate(Version version, Collection<String> versionPredicates)
 	{
 		return versionPredicates.isEmpty() || versionPredicates.stream().anyMatch(vp -> doesVersionSatisfyPredicate(version, vp));
 	}
