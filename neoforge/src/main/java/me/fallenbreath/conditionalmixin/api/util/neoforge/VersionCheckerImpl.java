@@ -15,12 +15,12 @@ public class VersionCheckerImpl
 {
 	private static Optional<IModFileInfo> getModFileInfo(String modId)
 	{
-		IModFileInfo mod = LoadingModList.get().getModFileById(modId);
-		if (mod == null)
+		Optional<IModFileInfo> mod = Optional.ofNullable(LoadingModList.get()).map(ml -> ml.getModFileById(modId));
+		if (!mod.isPresent())
 		{
-			mod = ModList.get().getModFileById(modId);
+			mod = Optional.ofNullable(ModList.get()).map(ml -> ml.getModFileById(modId));
 		}
-		return Optional.ofNullable(mod);
+		return mod;
 	}
 
 	private static Optional<ArtifactVersion> getModVersion(IModFileInfo modFileInfo)
