@@ -104,6 +104,11 @@ public class MyMixinConfigPlugin
 }
 ```
 
+(optional) To erase `@Restriction` annotations on output mixined classes, you can use
+`me.fallenbreath.conditionalmixin.api.mixin.AnnotationCleaner` and call `AnnotationCleaner.create(Restriction.class)` to get an annotation cleaner
+
+See also: source code of the [`RestrictiveMixinConfigPlugin`](common/src/main/java/me/fallenbreath/conditionalmixin/api/mixin/RestrictiveMixinConfigPlugin.java) class
+
 ### Annotate your mixins
 
 Now, you can annotate your mixins like these:
