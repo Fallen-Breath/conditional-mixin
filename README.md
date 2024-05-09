@@ -1,11 +1,11 @@
 # conditional-mixin
 
 [![jitpack badge](https://jitpack.io/v/Fallen-Breath/conditional-mixin.svg)](https://jitpack.io/#Fallen-Breath/conditional-mixin)
-[![maven badge](https://maven.fallenbreath.me/api/badge/latest/releases/me/fallenbreath/conditional-mixin)](https://maven.fallenbreath.me/#/releases/me/fallenbreath/conditional-mixin)
+[![maven badge](https://maven.fallenbreath.me/api/badge/latest/releases/me/fallenbreath/conditional-mixin-fabric)](https://maven.fallenbreath.me/#/releases/me/fallenbreath/conditional-mixin-fabric)
 
 A library mod for using annotation to conditionally apply your mixins to your Minecraft mods
 
-It is available at [jitpack](https://jitpack.io/#Fallen-Breath/conditional-mixin) and [my maven](https://maven.fallenbreath.me/#/releases/me/fallenbreath/conditional-mixin)
+It is available at [jitpack](https://jitpack.io/#Fallen-Breath/conditional-mixin) and [my maven](https://maven.fallenbreath.me/#/releases/me/fallenbreath/conditional-mixin-fabric)
 
 ## Example Usages
 
@@ -21,7 +21,7 @@ conditional-mixin does not require any extra dependencies
 
 Import conditional-mixin in gradle
 
-Artifact ID cheatsheet:
+Artifact ID table:
 
 | Platform | Artifact ID                  |
 |----------|------------------------------|
@@ -68,7 +68,7 @@ to provide the ability to control mixin applications. Then, there are 2 ways to 
 
 #### The simplest way
 
-Let your mixin config plugin class inherit [`RestrictiveMixinConfigPlugin`](src/main/java/me/fallenbreath/conditionalmixin/api/mixin/RestrictiveMixinConfigPlugin.java)
+Let your mixin config plugin class inherit [`RestrictiveMixinConfigPlugin`](common/src/main/java/me/fallenbreath/conditionalmixin/api/mixin/RestrictiveMixinConfigPlugin.java)
 
 The `RestrictiveMixinConfigPlugin` will disable those mixins that don't satisfy with the annotated restriction in its `shouldApplyMixin` method
 
@@ -90,7 +90,7 @@ Specify the mixin config plugin class in your mixin meta json, if you have not d
 #### The universal way
 
 If you have already written a custom mixin plugin and don't want to make your plugin class inherit from something else,
-you can directly use the [`RestrictionChecker`](src/main/java/me/fallenbreath/conditionalmixin/api/checker/RestrictionChecker.java) provided by conditional-mixin
+you can directly use the [`RestrictionChecker`](common/src/main/java/me/fallenbreath/conditionalmixin/api/checker/RestrictionChecker.java) provided by conditional-mixin
 
 ```java
 import me.fallenbreath.conditionalmixin.api.checker.RestrictionChecker;
