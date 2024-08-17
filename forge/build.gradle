@@ -22,6 +22,7 @@ dependencies {
 	shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
 }
 
+// https://github.com/Fallen-Breath/conditional-mixin/pull/10#discussion_r1717131940
 configurations.configureEach {
 	resolutionStrategy.force("net.sf.jopt-simple:jopt-simple:5.0.4")
 }
