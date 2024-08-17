@@ -13,9 +13,24 @@ import java.util.Optional;
 
 public class VersionCheckerImpl
 {
+	/**
+	 * {@link net.minecraftforge.fml.loading.LoadingModList} does not exist until forge
+	 */
+	private static Optional<IModFileInfo> getLoadingModFileInfo(String modId)
+	{
+		try
+		{
+			return Optional.ofNullable(LoadingModList.get()).map(ml -> ml.getModFileById(modId));
+		}
+		catch (Exception e)
+		{
+			return Optional.empty();
+		}
+	}
+
 	private static Optional<IModFileInfo> getModFileInfo(String modId)
 	{
-		Optional<IModFileInfo> mod = Optional.ofNullable(LoadingModList.get()).map(ml -> ml.getModFileById(modId));
+		Optional<IModFileInfo> mod = getLoadingModFileInfo(modId);
 		if (!mod.isPresent())
 		{
 			mod = Optional.ofNullable(ModList.get()).map(ml -> ml.getModFileById(modId));

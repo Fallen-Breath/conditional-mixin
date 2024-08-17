@@ -11,9 +11,11 @@ It is available at [jitpack](https://jitpack.io/#Fallen-Breath/conditional-mixin
 
 conditional-mixin supports multiple mod loader platforms, including:
 
-- Fabric
-- Forge
-- NeoForge
+| Platform | Requirements                   |
+|----------|--------------------------------|
+| Fabric   | Fabric loader `>=0.10.4`       |
+| Forge    | Forge >= `28` (mc1.14.4+)      |
+| NeoForge | NeoForge >= `20.5` (mc1.20.5+) |
 
 conditional-mixin does not require any extra dependencies
 

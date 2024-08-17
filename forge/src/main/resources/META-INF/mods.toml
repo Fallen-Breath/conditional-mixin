@@ -13,6 +13,6 @@ logoFile = "assets/conditionalmixin/icon.png"
 [[dependencies.conditional_mixin]]
 modId = "forge"
 mandatory = true
-versionRange = "[1,)"
+versionRange = "[28,)"
 ordering = "NONE"
 side = "BOTH"
