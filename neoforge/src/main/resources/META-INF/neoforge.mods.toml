@@ -12,7 +12,7 @@ logoFile = "assets/conditionalmixin/icon.png"
 
 [[dependencies.conditional_mixin]]
 modId = "neoforge"
-mandatory = true
+type = "required"
 versionRange = "[1,)"
 ordering = "NONE"
 side = "BOTH"
