@@ -50,6 +50,9 @@ allprojects {
 		options.release = 8
 		sourceCompatibility = "1.8"
 		targetCompatibility = "1.8"
+
+		// suppressed "source/target value 8 is obsolete and will be removed in a future release"
+		options.compilerArgs << '-Xlint:-options'
 	}
 
 	java {
