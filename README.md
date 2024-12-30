@@ -41,10 +41,10 @@ repositories {
 }
 
 dependencies {
-    modImplementation 'com.github.Fallen-Breath.conditional-mixin:conditional-mixin-fabric:0.6.3'
+    modImplementation 'com.github.Fallen-Breath.conditional-mixin:conditional-mixin-fabric:0.6.4'
 
     // Suggested, to bundle it into your mod jar. Choose a method your build system provides
-    include 'com.github.Fallen-Breath.conditional-mixin:conditional-mixin-fabric:0.6.3'
+    include 'com.github.Fallen-Breath.conditional-mixin:conditional-mixin-fabric:0.6.4'
 }
 ```
 
@@ -56,10 +56,10 @@ repositories {
 }
 
 dependencies {
-    modImplementation 'me.fallenbreath:conditional-mixin-fabric:0.6.3'
+    modImplementation 'me.fallenbreath:conditional-mixin-fabric:0.6.4'
 
     // Suggested, to bundle it into your mod jar. Choose a method your build system provides
-    include 'me.fallenbreath:conditional-mixin-fabric:0.6.3'
+    include 'me.fallenbreath:conditional-mixin-fabric:0.6.4'
 }
 ```
 
