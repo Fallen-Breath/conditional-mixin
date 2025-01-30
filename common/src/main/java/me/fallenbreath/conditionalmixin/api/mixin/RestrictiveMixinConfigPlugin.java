@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
 
 /**
  * A simple class that handle the {@link me.fallenbreath.conditionalmixin.api.annotation.Restriction} annotation
- * Make your custom MixinConfigPlugin extends this class and that's it, you have conditional mixin now
+ * Make your custom MixinConfigPlugin extend this class and that's it, you have conditional mixin now
  */
 public abstract class RestrictiveMixinConfigPlugin implements IMixinConfigPlugin
 {
