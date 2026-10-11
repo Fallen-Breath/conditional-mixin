@@ -8,6 +8,8 @@ import net.minecraftforge.forgespi.language.IModInfo;
 import org.apache.maven.artifact.versioning.ArtifactVersion;
 import org.apache.maven.artifact.versioning.VersionRange;
 
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -20,6 +22,11 @@ public class VersionCheckerImpl
 	{
 		try
 		{
+			// Forge 26.1+ changed LoadingModList into an interface with static queries.
+			if (LoadingModList.class.isInterface())
+			{
+				return Optional.ofNullable((IModFileInfo)LoadingModList.class.getMethod("getModFileById", String.class).invoke(null, modId));
+			}
 			return Optional.ofNullable(LoadingModList.get()).map(ml -> ml.getModFileById(modId));
 		}
 		catch (Exception e)
@@ -33,7 +40,24 @@ public class VersionCheckerImpl
 		Optional<IModFileInfo> mod = getLoadingModFileInfo(modId);
 		if (!mod.isPresent())
 		{
-			mod = Optional.ofNullable(ModList.get()).map(ml -> ml.getModFileById(modId));
+			try
+			{
+				Method query = ModList.class.getMethod("getModFileById", String.class);
+
+				// Forge 26.1+ exposes a static query on ModList.
+				if (Modifier.isStatic(query.getModifiers()))
+				{
+					mod = Optional.ofNullable((IModFileInfo)query.invoke(null, modId));
+				}
+				else
+				{
+					mod = Optional.ofNullable(ModList.get()).map(ml -> ml.getModFileById(modId));
+				}
+			}
+			catch (ReflectiveOperationException e)
+			{
+				throw new IllegalStateException("Failed to query Forge ModList for mod " + modId, e);
+			}
 		}
 		return mod;
 	}
